@@ -1,0 +1,6 @@
+displayName = VoidStorage Bridge
+author = zuanyhuan-sudo
+version = 1.0.0
+side = Both
+weakReferences = VoidStorage
+

@@ -1,0 +1,7 @@
+# tModLoader build outputs
+bin/
+obj/
+*.tmod
+*.tmod.bak*
+.build/
+ILDumps/

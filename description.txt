@@ -1,0 +1,9 @@
+桥接 VoidStorage（虚空仓库）与 ImproveGame（更好的体验），并修复 VoidStorage 的界面卡死 bug。
+
+功能：
+1. 修复 VoidStorage 打开界面卡死（反编译伪影导致的无限递归爆栈）
+2. 虚空仓库材料可用于原版工作台合成
+3. ImproveGame 大背包（超级保险库）材料可用于虚空仓库的合成界面
+4. 支持「参与合成」开关
+
+需要同时安装：VoidStorage、ImproveGame（更好的体验）。
