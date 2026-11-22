@@ -15,7 +15,6 @@ public class VoidStorageBridge : Mod
 		}
 
 		BigBagContents.Owner = this;
-		CrashFixPatch.Apply(this);
 		BigBagPatches.Apply(this);
 	}
 }
