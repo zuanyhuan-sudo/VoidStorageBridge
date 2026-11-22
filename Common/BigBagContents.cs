@@ -19,6 +19,20 @@ public static class BigBagContents
 
 	private static FieldInfo _modPlayersField;
 
+	/// <summary>Mod instance used only for diagnostic logging.</summary>
+	internal static Mod Owner;
+
+	private static int _diag;
+
+	internal static void Diag(string msg)
+	{
+		if (Owner != null && _diag <= 8)
+		{
+			_diag++;
+			Owner.Logger.Info("[BigBagDiag] " + msg);
+		}
+	}
+
 	private static List<Item> GetItems(Player player)
 	{
 		if (!ModLoader.HasMod("ImproveGame") || player == null)
@@ -121,12 +135,24 @@ public static class BigBagContents
 			return 0;
 		}
 		int num = 0;
+		int filled = 0;
+		int matched = 0;
+		int sampleType = -1;
+		int sampleStack = 0;
 		foreach (Item item in Enumerate(player))
 		{
+			filled++;
+			if (sampleType < 0 && item.type > 0) { sampleType = item.type; sampleStack = item.stack; }
 			if (item.type == type)
 			{
+				matched++;
 				num += item.stack;
 			}
+		}
+		if (_diag <= 10)
+		{
+			_diag++;
+			Diag($"Count(type={type}) nonAir={filled} matched={matched} sum={num} sample=({sampleType}x{sampleStack})");
 		}
 		return num;
 	}
@@ -142,6 +168,7 @@ public static class BigBagContents
 		{
 			return 0;
 		}
+		Diag($"Consume(type={type},{count}) listCount={list.Count}");
 		int num = count;
 		for (int i = list.Count - 1; i >= 0 && num > 0; i--)
 		{

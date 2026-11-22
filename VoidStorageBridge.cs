@@ -1,3 +1,4 @@
+using VoidStorageBridge.Common;
 using VoidStorageBridge.Patches;
 using Terraria.ModLoader;
 
@@ -13,6 +14,7 @@ public class VoidStorageBridge : Mod
 			return;
 		}
 
+		BigBagContents.Owner = this;
 		CrashFixPatch.Apply(this);
 		BigBagPatches.Apply(this);
 	}
