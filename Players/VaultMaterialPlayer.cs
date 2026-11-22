@@ -16,10 +16,32 @@ public class VaultMaterialPlayer : ModPlayer
 	private int[] _idxPrefix = Array.Empty<int>();
 	private int[] _idxRemaining = Array.Empty<int>();
 
+	private static bool? _internalConsumer;
+
+	/// <summary>
+	/// Modified (recompiled) VoidStorage builds ship their own StorageMaterialConsumer which already
+	/// feeds the vault into vanilla crafting. Skip ours in that case so materials are never counted twice.
+	/// </summary>
+	private static bool HasInternalConsumer()
+	{
+		if (_internalConsumer == null)
+		{
+			try
+			{
+				_internalConsumer = ModLoader.GetMod("VoidStorage")?.Code?.GetType("VoidStorage.Features.StorageMaterialConsumer") != null;
+			}
+			catch
+			{
+				_internalConsumer = false;
+			}
+		}
+		return _internalConsumer.Value;
+	}
+
 	public override IEnumerable<Item> AddMaterialsForCrafting(out ItemConsumedCallback itemConsumedCallback)
 	{
 		itemConsumedCallback = null;
-		if (!ModLoader.HasMod("VoidStorage"))
+		if (!ModLoader.HasMod("VoidStorage") || HasInternalConsumer())
 		{
 			return Array.Empty<Item>();
 		}
